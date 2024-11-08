@@ -4,6 +4,7 @@ import Home from './componets/dashboard/layout'
 
 function App() {
   return (
+    
     <BrowserRouter>
       <Home />
     </BrowserRouter>

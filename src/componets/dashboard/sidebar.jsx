@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, onToggle }) => {
   const [activeDropdown, setActiveDropdown] = useState(null)
+  const location = useLocation()
 
   const menuItems = [
     {
@@ -32,8 +33,7 @@ const Sidebar = ({ isOpen }) => {
       ),
       submenu: [
         { name: 'Class Schedule', path: '/classes/schedule' },
-        { name: 'Add Class', path: '/classes/add' },
-        { name: 'Trainers', path: '/trainers' }
+        { name: 'Trainers', path: '/classes/trainers' }
       ]
     },
     {
@@ -65,37 +65,42 @@ const Sidebar = ({ isOpen }) => {
   ]
 
   const toggleDropdown = (index) => {
+    if (!isOpen) {
+      onToggle()
+    }
     setActiveDropdown(activeDropdown === index ? null : index)
   }
 
   return (
-    <div className={`h-full flex flex-col justify-between bg-primary-800 text-white transition-all duration-300 ${isOpen ? 'w-64' : 'w-20'}`}>
-      <div>
+    <div className={`h-full flex flex-col justify-between bg-secondary-800 text-white transition-all duration-300  ${isOpen ? 'w-64' : 'w-20'}`}>
+      <div className='flex flex-col justify-between '>
         {/* Logo */}
-        <div className="flex items-center justify-center h-16 bg-primary-900">
+        <div className="flex items-center justify-center h-16 bg-secondary-900">
           {isOpen ? (
-            <h1 className="py-10 text-3xl font-bold text-secondary-500">SWEAT BOX</h1>
+            <h1 className="py-10 text-3xl font-bold text-primary-500">SWEAT BOX</h1>
           ) : (
             <span className="text-xl font-bold">Gym</span>
           )}
         </div>
 
         {/* Navigation */}
-        <nav className="mt-4">
+        <nav className="mt-4  ">
           {menuItems.map((item, index) => (
             <div key={item.title}>
               {item.submenu ? (
                 <div>
                   <button
                     onClick={() => toggleDropdown(index)}
-                    className={`flex items-center w-full px-4 py-3 hover:bg-primary-700 transition-colors ${
-                      activeDropdown === index ? 'bg-primary-700' : ''
+                    className={`flex items-center w-full px-4 py-3 hover:bg-secondary-700 transition-colors ${
+                      activeDropdown === index ? 'bg-secondary-700' : ''
                     }`}
                   >
                     <span className="mr-4">{item.icon}</span>
                     {isOpen && (
                       <>
-                        <span>{item.title}</span>
+                        <span className={location.pathname.startsWith(item.path) ? 'font-bold text-primary-400' : ''}>
+                          {item.title}
+                        </span>
                         <svg
                           className={`w-4 h-4 ml-auto transform transition-transform ${
                             activeDropdown === index ? 'rotate-180' : ''
@@ -115,7 +120,9 @@ const Sidebar = ({ isOpen }) => {
                         <Link
                           key={subItem.name}
                           to={subItem.path}
-                          className="block px-12 py-2 hover:bg-gray-600 transition-colors"
+                          className={`block px-12 py-2 hover:bg-gray-600 transition-colors ${
+                            location.pathname === subItem.path ? 'font-bold text-primary-400 bg-secondary-600' : ''
+                          }`}
                         >
                           {subItem.name}
                         </Link>
@@ -126,7 +133,9 @@ const Sidebar = ({ isOpen }) => {
               ) : (
                 <Link
                   to={item.path}
-                  className="flex items-center px-4 py-3 hover:bg-gray-700 transition-colors"
+                  className={`flex items-center px-4 py-3 hover:bg-gray-700 transition-colors ${
+                    location.pathname === item.path ? 'font-bold text-primary-400 bg-secondary-600' : ''
+                  }`}
                 >
                   <span className="mr-4">{item.icon}</span>
                   {isOpen && <span>{item.title}</span>}
@@ -137,13 +146,29 @@ const Sidebar = ({ isOpen }) => {
         </nav>
       </div>
 
-      {/* Logout Button */}
-      <div className="p-4">
+      <div className="p-4 space-y-3">
+        {/* Toggle Button */}
+        <button
+          onClick={onToggle}
+          className="flex items-center w-full px-4 py-2 text-sm bg-secondary-700 hover:bg-secondary-600 rounded transition-colors"
+        >
+          <svg 
+            className={`w-5 h-5 ${isOpen ? 'mr-2' : 'mx-auto'} transform transition-transform duration-300 ${isOpen ? 'rotate-0' : 'rotate-180'}`} 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+          </svg>
+          {isOpen && <span>Collapse Sidebar</span>}
+        </button>
+
+        {/* Logout Button */}
         <button
           onClick={() => {/* Add logout logic here */}}
           className="flex items-center w-full px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded transition-colors"
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={`w-5 h-5 ${isOpen ? 'mr-2' : 'mx-auto'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           {isOpen && <span>Logout</span>}

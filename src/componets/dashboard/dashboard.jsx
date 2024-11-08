@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import CountUp from 'react-countup'
 
 ChartJS.register(
   CategoryScale,
@@ -186,7 +187,14 @@ const Dashboard = () => {
               </div>
               <p className="text-sm text-primary-600 mb-1">{stat.title}</p>
               <p className="text-2xl font-bold text-primary-900">
-                {stat.prefix}{stat.value.toLocaleString()}{stat.suffix}
+                {stat.prefix}
+                <CountUp
+                  end={stat.value}
+                  duration={2}
+                  separator=","
+                  decimals={stat.suffix === '%' ? 1 : 0}
+                />
+                {stat.suffix}
               </p>
             </motion.div>
           ))}
