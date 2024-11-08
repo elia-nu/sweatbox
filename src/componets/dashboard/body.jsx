@@ -21,7 +21,6 @@ const Body = () => {
             backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)),url('https://sweatboxapg.com/wp-content/uploads/2021/12/13.jpg')",
             backgroundAttachment: "fixed"
           }} >
-      { isHomePage ? null : <Navbar /> }
 
       <Routes>
         
