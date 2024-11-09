@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const Programs = () => {
   const programs = [
@@ -29,9 +30,19 @@ const Programs = () => {
   ];
 
   return (
-    <section className="pb-32 px-4 bg-secondary-900 md:pb-72">
+    <motion.section 
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      className="pb-32 px-4 bg-secondary-900 md:pb-72"
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 pt-20">
             ELITE <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-600">PROGRAMS</span>
           </h2>
@@ -41,15 +52,22 @@ const Programs = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-16">
             {programs.map((program, index) => (
-              <div
+              <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
                 className="relative bg-secondary-800/10 rounded-3xl overflow-hidden flex flex-col h-96"
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/90 to-transparent z-10" />
                 <img 
                   src={program.image} 
                   alt={program.title}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="lazy"
+                  width="600"
+                  height="400"
+                  className="absolute inset-0 w-full h-full object-cover will-change-transform"
                 />
                 <div 
                   className="relative z-20 p-8 flex flex-col items-center mt-auto"
@@ -58,12 +76,12 @@ const Programs = () => {
                   <h3 className="text-2xl font-bold text-center text-primary-500 mb-3">{program.title}</h3>
                   <p className="text-gray-300 text-sm text-center">{program.description}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
