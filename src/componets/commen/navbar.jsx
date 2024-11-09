@@ -8,12 +8,14 @@ const Navbar = ({ scrollPosition }) => {
   const location = useLocation()
   const isHomePage = location.pathname === '/'
   const navArray = [
-    { to: "/programs", text: "Programs" },
-    { to: "/contact", text: "Contact" },
+   
+
     { to: "/about", text: "About" },
-    { to: "/coaches-trainers", text: "Coaches & Trainers" },
+    { to: "/Coaches & Trainers", text: "Coaches & Trainers" },
     { to: "/services", text: "Services" },
-    { to: "/gallery", text: "Gallery" }
+    { to: "/gallery", text: "Gallery" },
+
+    { to: "/contact", text: "Contact" }
   ]
   return (
     <motion.nav 

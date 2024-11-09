@@ -4,11 +4,13 @@ import AllMembers from './members'
 import Payments from './payments'
 import Trainers from './trainers'
 import ClassSchedule from './classSchedule'
+
+import { useLocation } from 'react-router-dom'
+
 import Home from '../home'
 import Home2 from '../home2'
 import About from '../about'
 import Navbar from '../commen/navbar'
-import { useLocation } from 'react-router-dom'
 import Gallery from '../Gallery'
 import Services from '../services'
 import AboutOwner from '../about-owner'
@@ -24,16 +26,15 @@ const Body = () => {
 
       <Routes>
         
-        <Route path="/services" element={<Services />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/2" element={<Home2 />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/Trainers" element={<AboutOwner />} />
+      <Route path="/dashboard" element={<dadadad />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/members/*" element={
+        <Route path="/dashboard/*" element={
+          
           <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/members/*" element={
+              <Routes>
             <Route path="/" element={<AllMembers />} />
             <Route path="add" element={<AddMember />} />
             <Route path="memberships" element={<Memberships />} />
@@ -61,6 +62,9 @@ const Body = () => {
             <Route path="add" element={<AddEquipment />} />
           </Routes>
         } />
+
+      </Routes>
+        }/>
       </Routes>
     </div>
   )

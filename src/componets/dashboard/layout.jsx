@@ -13,9 +13,9 @@ const Layout = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {location. pathname !== '/' && location.pathname !== '/about' && location.pathname !== '/contact' && location.pathname !== '/gallery' && (
+      {location. pathname.startsWith('/dashboard') && (
         <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
-        
+
       )}
       <Body />
     </div>

@@ -22,7 +22,7 @@ const Sidebar = ({ isOpen, onToggle }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
       ),
-      path: '/members'
+      path: '/dashboard/members'
     },
     {
       title: 'Classes',
@@ -32,8 +32,8 @@ const Sidebar = ({ isOpen, onToggle }) => {
         </svg>
       ),
       submenu: [
-        { name: 'Class Schedule', path: '/classes/schedule' },
-        { name: 'Trainers', path: '/classes/trainers' }
+        { name: 'Class Schedule', path: '/dashboard/classes/schedule' },
+        { name: 'Trainers', path: '/dashboard/classes/trainers' }
       ]
     },
     {
@@ -44,9 +44,9 @@ const Sidebar = ({ isOpen, onToggle }) => {
         </svg>
       ),
       submenu: [
-        { name: 'Payments', path: '/billing/payments' },
-        { name: 'Invoices', path: '/billing/invoices' },
-        { name: 'Plans', path: '/billing/plans' }
+        { name: 'Payments', path: '/dashboard/billing/payments' },
+        { name: 'Invoices', path: '/dashboard/billing/invoices' },
+        { name: 'Plans', path: '/dashboard/billing/plans' }
       ]
     },
     {
@@ -57,9 +57,9 @@ const Sidebar = ({ isOpen, onToggle }) => {
         </svg>
       ),
       submenu: [
-        { name: 'Inventory', path: '/equipment/inventory' },
-        { name: 'Maintenance', path: '/equipment/maintenance' },
-        { name: 'Add Equipment', path: '/equipment/add' }
+        { name: 'Inventory', path: '/dashboard/equipment/inventory' },
+        { name: 'Maintenance', path: '/dashboard/equipment/maintenance' },
+        { name: 'Add Equipment', path: '/dashboard/equipment/add' }
       ]
     }
   ]

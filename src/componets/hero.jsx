@@ -15,19 +15,18 @@ const Hero = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   const navArray = [
-    { to: "/programs", text: "Programs" },
-    { to: "/contact", text: "Contact" },
+
     { to: "/about", text: "About" },
     { to: "/Coaches & Trainers", text: "Coaches & Trainers" },
     { to: "/services", text: "Services" },
     { to: "/gallery", text: "Gallery" },
-    
+    { to: "/contact", text: "Contact" },
     { to: "/dashboard", text: "Member Login", special: true }
     
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-secondary-900 to-secondary-950">
+    <div className="min-h-screen bg-gradient-to-b from-secondary-900/70 to-secondary-950">
       {/* Hero Section */}
         <div className="relative md:h-[120vh] h-[100vh]">
         {/* Navbar */}
