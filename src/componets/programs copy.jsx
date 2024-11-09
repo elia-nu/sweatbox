@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const Programs = () => {
   const programs = [
@@ -29,11 +30,16 @@ const Programs = () => {
   ];
 
   return (
-    <section className="pb-32 px-4 bg-secondary-900 md:pb-72">
+    <section className="pb-32 px-4 bg-secondary-900 md:pb-72 backdrop-blur-md">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easein" }}
+          className="text-center mb-20"
+        >
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 pt-20">
-            ELITE <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-600">PROGRAMS</span>
+            ELITE <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-600 animate-gradient-x">PROGRAMS</span>
           </h2>
           <p className="text-gray-400 text-xl max-w-2xl mx-auto">
             Unlock your full potential with our scientifically-backed training methodologies
@@ -43,13 +49,13 @@ const Programs = () => {
             {programs.map((program, index) => (
               <div
                 key={index}
-                className="relative bg-secondary-800/10 rounded-3xl overflow-hidden flex flex-col h-96"
+                className="group relative bg-secondary-800/10 backdrop-blur-sm rounded-3xl overflow-hidden hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 flex flex-col h-96"
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/90 to-transparent z-10" />
                 <img 
                   src={program.image} 
                   alt={program.title}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover h-96 group-hover:scale-105 transition-transform duration-600"
                 />
                 <div 
                   className="relative z-20 p-8 flex flex-col items-center mt-auto"
@@ -61,7 +67,7 @@ const Programs = () => {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
