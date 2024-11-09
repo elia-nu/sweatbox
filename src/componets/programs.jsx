@@ -9,27 +9,28 @@ const Programs = () => {
       title: "Weight Loss and Nutrition Plans",
       description: "We have teamed up with Nutritionists who provide clients with customized analyses, meal plans and nutrition counselling to manage weight gain/loss, learn about appropriate portion size and balanced nutrition, as well as how to prevent/control chronic conditions",
       icon: "🧬",
-      image: "https://images.unsplash.com/photo-151262177951-a57141f2eefd"
+      image: "https://sweatboxapg.com/wp-content/uploads/2022/05/g-768x471.jpg.webp"
     },
     {
       title: "HIIT (High-Intensity Interval Training)", 
       description: "Most of our group classes and personal training plans incorporate HIIT, meaning we alternate short periods of intense exercise with short recovery periods in one session for maximum impact.",
       icon: "⚡",
-      image: "https://images.unsplash.com/photo-151796387933-6ad2b056d712"
+      image: "https://sweatboxapg.com/wp-content/uploads/2022/05/g-768x471.jpg.webp"
     },
     {
       title: "Muscle Toning and Hypertrophy",
       description: "For clients who want to increase the size of their muscles and increase muscle definition and leanness, we offer individualized training programs to achieve hypertrophy.",
       icon: "💪", 
-      image: "https://images.unsplash.com/photo-158345110551-21f2fa2afe61"
+      image: "https://sweatboxapg.com/wp-content/uploads/2022/05/g-768x471.jpg.webp"
     },
     {
       title: "General Bio-Mechanics Analysis",
       description: "We offer clients an initial, detailed examination of various everyday movements like squatting, dead-lifting (picking up things), walking up stairs, lunging, and running (gait) to assess their mobility and any limitations.",
       icon: "🎯",
-      image: "https://images.unsplash.com/photo-157667897484-cc907957088c"
+      image: "https://sweatboxapg.com/wp-content/uploads/2022/05/g-768x471.jpg.webp"
     }
   ];
+
 
   return (
     <motion.section 
