@@ -1,31 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Programs = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
   const programs = [
     {
       title: "Weight Loss and Nutrition Plans",
       description: "We have teamed up with Nutritionists who provide clients with customized analyses, meal plans and nutrition counselling to manage weight gain/loss, learn about appropriate portion size and balanced nutrition, as well as how to prevent/control chronic conditions",
       icon: "🧬",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd"
+      image: "https://images.unsplash.com/photo-151262177951-a57141f2eefd"
     },
     {
       title: "HIIT (High-Intensity Interval Training)", 
       description: "Most of our group classes and personal training plans incorporate HIIT, meaning we alternate short periods of intense exercise with short recovery periods in one session for maximum impact.",
       icon: "⚡",
-      image: "https://images.unsplash.com/photo-1517963879433-6ad2b056d712"
+      image: "https://images.unsplash.com/photo-151796387933-6ad2b056d712"
     },
     {
       title: "Muscle Toning and Hypertrophy",
       description: "For clients who want to increase the size of their muscles and increase muscle definition and leanness, we offer individualized training programs to achieve hypertrophy.",
       icon: "💪", 
-      image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61"
+      image: "https://images.unsplash.com/photo-158345110551-21f2fa2afe61"
     },
     {
       title: "General Bio-Mechanics Analysis",
       description: "We offer clients an initial, detailed examination of various everyday movements like squatting, dead-lifting (picking up things), walking up stairs, lunging, and running (gait) to assess their mobility and any limitations.",
       icon: "🎯",
-      image: "https://images.unsplash.com/photo-1576678927484-cc907957088c"
+      image: "https://images.unsplash.com/photo-157667897484-cc907957088c"
     }
   ];
 
@@ -33,7 +35,8 @@ const Programs = () => {
     <motion.section 
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, amount: 0.2 }}
+      onViewportEnter={() => setIsVisible(true)}
       className="pb-32 px-4 bg-secondary-900 md:pb-72"
     >
       <div className="max-w-7xl mx-auto">
@@ -51,12 +54,11 @@ const Programs = () => {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-16">
-            {programs.map((program, index) => (
+            {isVisible && programs.map((program, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className="relative bg-secondary-800/10 rounded-3xl overflow-hidden flex flex-col h-96"
               >
@@ -65,9 +67,9 @@ const Programs = () => {
                   src={program.image} 
                   alt={program.title}
                   loading="lazy"
-                  width="600"
-                  height="400"
-                  className="absolute inset-0 w-full h-full object-cover will-change-transform"
+                  width="300"
+                  height="200"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div 
                   className="relative z-20 p-8 flex flex-col items-center mt-auto"
