@@ -35,45 +35,39 @@ const Programs = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 pt-20">
-            ELITE <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-600 ">PROGRAMS</span>
+            ELITE <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-600 animate-gradient-x">PROGRAMS</span>
           </h2>
           <p className="text-gray-400 text-xl max-w-2xl mx-auto">
             Unlock your full potential with our scientifically-backed training methodologies
           </p>
-        </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-          {programs.map((program, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
-              whileHover={{ y: -10 }}
-              className="group  relative bg-secondary-800/10  backdrop-blur-sm rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-300 flex flex-col h-96"
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/90 to-transparent z-10" />
-              <motion.img 
-                initial={{ scale: 1 }}
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.6 }}
-                src={program.image} 
-                alt={program.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 h-96  "
-              />
-              <div className="relative z-20 p-8 flex flex-col items-center mt-auto ">
-                <div className="text-6xl mb-6">{program.icon}</div>
-                <h3 className="text-2xl font-bold text-center text-primary-500 mb-3">{program.title}</h3>
-                <p className="text-gray-300 text-sm text-center">{program.description}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-16">
+            {programs.map((program, index) => (
+              <div
+                key={index}
+                className="group relative bg-secondary-800/10 backdrop-blur-sm rounded-3xl overflow-hidden hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 flex flex-col h-96"
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/90 to-transparent z-10" />
+                <img 
+                  src={program.image} 
+                  alt={program.title}
+                  className="absolute inset-0 w-full h-full object-cover h-96 group-hover:scale-105 transition-transform duration-600"
+                />
+                <div 
+                  className="relative z-20 p-8 flex flex-col items-center mt-auto"
+                >
+                  <div className="text-6xl mb-6">{program.icon}</div>
+                  <h3 className="text-2xl font-bold text-center text-primary-500 mb-3">{program.title}</h3>
+                  <p className="text-gray-300 text-sm text-center">{program.description}</p>
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
