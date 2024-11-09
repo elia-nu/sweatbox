@@ -56,7 +56,7 @@ const Welcome = () => {
             <video
               ref={videoRef}
               className="w-full h-full object-cover"
-              autoPlay
+          
               muted
               playsInline
               loop
