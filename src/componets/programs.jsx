@@ -33,9 +33,9 @@ const Programs = () => {
     <section className="pb-32 px-4 bg-secondary-900 md:pb-72 backdrop-blur-md">
       <div className="max-w-7xl mx-auto">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easein" }}
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 pt-20">
