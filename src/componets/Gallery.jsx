@@ -293,10 +293,10 @@ const Gallery = () => {
   return (
     <>
       <div className="bg-black/50 backdrop-blur-xl pt-10">
-        <h1 className="text-4xl font-bold text-center mb-8 text-orange-400 font-serif text-7xl">
+        <h1 className="text-2xl md:text-4xl lg:text-7xl font-bold text-center mb-4 md:mb-8 text-orange-400 font-serif">
           Gallery
         </h1>
-        <p className="text-center text-white text-xl mb-4 max-w-7xl mx-auto">
+        <p className="text-center text-white text-sm md:text-xl mb-4 max-w-7xl mx-auto px-4">
           We believe in our programming – so much so that our coaches follow the
           same training. In fact, it is likely you will train alongside a coach
           multiple times a week! Coaches stay connected to our members through
@@ -304,14 +304,14 @@ const Gallery = () => {
         </p>
 
         {/* Category Filter Buttons */}
-        <div className="flex justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 px-4">
           {categories.map(category => (
             <motion.button
               key={category.id}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+              className={`px-3 md:px-6 py-1 md:py-2 rounded-full text-sm md:text-base font-semibold transition-all duration-300 ${
                 selectedCategory === category.id
                   ? 'bg-orange-500 text-white'
                   : 'bg-orange-200/10 text-orange-400 hover:bg-orange-500/20'
@@ -324,7 +324,7 @@ const Gallery = () => {
 
         <motion.div
           layout
-          className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4 pb-24 pt-24 px-10"
+          className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 pb-12 md:pb-24 pt-12 md:pt-24 px-4 md:px-10"
         >
           <AnimatePresence>
             {filteredImages.map((image) => (
@@ -343,11 +343,11 @@ const Gallery = () => {
                   className="w-full rounded-lg shadow-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-orange-900/80 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg">
-                  <div className="absolute bottom-0 p-6">
-                    <h4 className="text-xl font-light mb-2 text-white">
+                  <div className="absolute bottom-0 p-4 md:p-6">
+                    <h4 className="text-lg md:text-xl font-light mb-1 md:mb-2 text-white">
                       {image.title}
                     </h4>
-                    <p className="text-sm text-orange-100 line-clamp-2">
+                    <p className="text-xs md:text-sm text-orange-100 line-clamp-2">
                       {image.description}
                     </p>
                   </div>

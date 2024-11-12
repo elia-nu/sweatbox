@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Tooltip } from 'react-tooltip'
 
 const Sidebar = ({ isOpen, onToggle }) => {
   const [activeDropdown, setActiveDropdown] = useState(null)
@@ -13,7 +14,7 @@ const Sidebar = ({ isOpen, onToggle }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
       ),
-      path: '/dashboard'
+      path: '/dashboard/dashboard'
     },
     {
       title: 'Members',
@@ -65,44 +66,57 @@ const Sidebar = ({ isOpen, onToggle }) => {
   ]
 
   const toggleDropdown = (index) => {
-    if (!isOpen) {
-      onToggle()
-    }
     setActiveDropdown(activeDropdown === index ? null : index)
   }
 
   return (
-    <div className={`h-full flex flex-col justify-between bg-secondary-800 text-white transition-all duration-300  ${isOpen ? 'w-64' : 'w-20'}`}>
-      <div className='flex flex-col justify-between '>
+    <div className={`h-full flex flex-col justify-between bg-secondary-800 text-white transition-all duration-300 shadow-xl ${
+      isOpen ? 'w-64' : 'w-20 lg:w-20'
+    }`}>
+      <div className='flex flex-col justify-between'>
         {/* Logo */}
-        <div className="flex items-center justify-center h-16 bg-secondary-900">
+        <div className="flex items-center justify-center h-16 bg-secondary-900 border-b border-secondary-700">
           {isOpen ? (
-            <h1 className="py-10 text-3xl font-bold text-primary-500">SWEAT BOX</h1>
+            <h1 className="py-10 text-3xl font-bold text-primary-500 tracking-wider">SWEAT BOX</h1>
           ) : (
-            <span className="text-xl font-bold">Gym</span>
+            <span className="text-xl font-bold text-primary-500">SB</span>
           )}
         </div>
 
         {/* Navigation */}
-        <nav className="mt-4  ">
+        <nav className="mt-4">
           {menuItems.map((item, index) => (
             <div key={item.title}>
               {item.submenu ? (
                 <div>
                   <button
+                    data-tooltip-id="nav-tooltip"
+                    data-tooltip-content={!isOpen ? item.title : ''}
                     onClick={() => toggleDropdown(index)}
-                    className={`flex items-center w-full px-4 py-3 hover:bg-secondary-700 transition-colors ${
+                    className={`flex items-center w-full  py-3 hover:bg-secondary-700 transition-colors ${
                       activeDropdown === index ? 'bg-secondary-700' : ''
-                    }`}
+                    }${!isOpen ? 'px-7' : 'px-4'}`}
                   >
-                    <span className="mr-4">{item.icon}</span>
+                    <div className="flex items-center">
+                      <span className={`${!isOpen ? '' : 'mr-4'}`}>{item.icon}</span>
+                      {!isOpen && (
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      )}
+                    </div>
                     {isOpen && (
                       <>
-                        <span className={location.pathname.startsWith(item.path) ? 'font-bold text-primary-400' : ''}>
+                        <span className={`transition-colors ${location.pathname.startsWith(item.path) ? 'font-bold text-primary-400' : ''}`}>
                           {item.title}
                         </span>
                         <svg
-                          className={`w-4 h-4 ml-auto transform transition-transform ${
+                          className={`w-4 h-4 ml-2 transform transition-transform ${
                             activeDropdown === index ? 'rotate-180' : ''
                           }`}
                           fill="none"
@@ -114,13 +128,15 @@ const Sidebar = ({ isOpen, onToggle }) => {
                       </>
                     )}
                   </button>
-                  {isOpen && activeDropdown === index && (
-                    <div className="bg-gray-700">
+                  {activeDropdown === index && (
+                    <div className={`bg-secondary-700 ${!isOpen ? 'absolute left-20 top-auto min-w-[200px] rounded-md shadow-lg' : ''}`}>
                       {item.submenu.map((subItem) => (
                         <Link
                           key={subItem.name}
                           to={subItem.path}
-                          className={`block px-12 py-2 hover:bg-gray-600 transition-colors ${
+                          data-tooltip-id={!isOpen ? "nav-tooltip" : ""}
+                          data-tooltip-content={!isOpen ? subItem.name : ""}
+                          className={`block ${isOpen ? 'px-12' : 'px-4'} py-2 hover:bg-secondary-600 transition-colors ${
                             location.pathname === subItem.path ? 'font-bold text-primary-400 bg-secondary-600' : ''
                           }`}
                         >
@@ -133,11 +149,13 @@ const Sidebar = ({ isOpen, onToggle }) => {
               ) : (
                 <Link
                   to={item.path}
-                  className={`flex items-center px-4 py-3 hover:bg-gray-700 transition-colors ${
+                  data-tooltip-id="nav-tooltip"
+                  data-tooltip-content={!isOpen ? item.title : ''}
+                  className={`flex items-center px-4 py-3 hover:bg-secondary-700 transition-colors ${
                     location.pathname === item.path ? 'font-bold text-primary-400 bg-secondary-600' : ''
                   }`}
                 >
-                  <span className="mr-4">{item.icon}</span>
+                  <span className={`${!isOpen ? 'mx-auto' : 'mr-4'}`}>{item.icon}</span>
                   {isOpen && <span>{item.title}</span>}
                 </Link>
               )}
@@ -146,14 +164,18 @@ const Sidebar = ({ isOpen, onToggle }) => {
         </nav>
       </div>
 
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-3 border-t border-secondary-700">
         {/* Toggle Button */}
         <button
           onClick={onToggle}
-          className="flex items-center w-full px-4 py-2 text-sm bg-secondary-700 hover:bg-secondary-600 rounded transition-colors"
+          data-tooltip-id="nav-tooltip"
+          data-tooltip-content={!isOpen ? 'Expand Sidebar' : ''}
+          className="flex items-center w-full px-4 py-2 text-sm bg-secondary-700 hover:bg-secondary-600 rounded-lg transition-colors"
         >
           <svg 
-            className={`w-5 h-5 ${isOpen ? 'mr-2' : 'mx-auto'} transform transition-transform duration-300 ${isOpen ? 'rotate-0' : 'rotate-180'}`} 
+            className={`w-5 h-5 ${isOpen ? 'mr-2' : 'mx-auto'} transform transition-transform duration-300 ${
+              !isOpen ? 'rotate-0' : 'rotate-180'
+            }`} 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -166,7 +188,9 @@ const Sidebar = ({ isOpen, onToggle }) => {
         {/* Logout Button */}
         <button
           onClick={() => {/* Add logout logic here */}}
-          className="flex items-center w-full px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded transition-colors"
+          data-tooltip-id="nav-tooltip"
+          data-tooltip-content={!isOpen ? 'Logout' : ''}
+          className="flex items-center w-full px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
         >
           <svg className={`w-5 h-5 ${isOpen ? 'mr-2' : 'mx-auto'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -174,6 +198,8 @@ const Sidebar = ({ isOpen, onToggle }) => {
           {isOpen && <span>Logout</span>}
         </button>
       </div>
+
+      <Tooltip id="nav-tooltip" place="right" />
     </div>
   )
 }

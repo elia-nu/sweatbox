@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Dashboard from './dashboard'
 import AllMembers from './members'
 import Payments from './payments'
@@ -7,16 +7,7 @@ import ClassSchedule from './classSchedule'
 
 import { useLocation } from 'react-router-dom'
 
-import Home from '../home'
-import Home2 from '../home2'
-import About from '../about'
-import Navbar from '../commen/navbar'
-import Gallery from '../Gallery'
-import Services from '../services'
-import AboutOwner from '../about-owner'
 const Body = () => {
-  const location = useLocation()
-  const isHomePage = location.pathname === '/'
   return (
     <div className="flex-1 overflow-auto bg-secondary-900 bg-cover bg-center z-0"
           style={{
@@ -25,16 +16,10 @@ const Body = () => {
           }} >
 
       <Routes>
-        
-      <Route path="/dashboard" element={<dadadad />} />
-
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/*" element={
-          
+        <Route path="/members/*" element={
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/members/*" element={
-              <Routes>
             <Route path="/" element={<AllMembers />} />
             <Route path="add" element={<AddMember />} />
             <Route path="memberships" element={<Memberships />} />
@@ -52,7 +37,6 @@ const Body = () => {
             <Route path="payments" element={<Payments />} />
             <Route path="invoices" element={<Invoices />} />
             <Route path="plans" element={<Plans />} />
-
           </Routes>
         } />
         <Route path="/equipment/*" element={
@@ -62,19 +46,14 @@ const Body = () => {
             <Route path="add" element={<AddEquipment />} />
           </Routes>
         } />
-
-      </Routes>
-        }/>
       </Routes>
     </div>
   )
 }
 
 // Placeholder components - these should be replaced with actual components
-
 const AddMember = () => <div className="p-6">Add New Member Form</div>
 const Memberships = () => <div className="p-6">Membership Plans</div>
-
 
 const AddClass = () => <div className="p-6">Add New Class Form</div>
 

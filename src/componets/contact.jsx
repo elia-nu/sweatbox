@@ -1,9 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import MapComponent from './map';
-import Footer from './commen/footer';
-import Navbar from './commen/navbar';
-
 const Contact = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black/70 to-black/80 backdrop-blur-xl">
@@ -97,7 +94,6 @@ const Contact = () => {
       </section>
 
       <MapComponent />
-      <Footer />
     </div>
   );
 };

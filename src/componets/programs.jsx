@@ -47,12 +47,25 @@ const Programs = () => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-black text-white mb-6 pt-20">
-            ELITE <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-600">PROGRAMS</span>
-          </h2>
-          <p className="text-gray-400 text-xl max-w-2xl mx-auto">
+          <motion.h2 
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-5xl md:text-6xl font-black text-white mb-6 pt-20"
+          >
+            ELITE <span 
+              className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-600"
+            
+            >PROGRAMS</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-400 text-xl max-w-2xl mx-auto"
+          >
             Unlock your full potential with our scientifically-backed training methodologies
-          </p>
+          </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-16">
             {isVisible && programs.map((program, index) => (
@@ -60,25 +73,52 @@ const Programs = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.2 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                }}
                 className="relative bg-secondary-800/10 rounded-3xl overflow-hidden flex flex-col h-96"
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/90 to-transparent z-10" />
-                <img 
+                <motion.img 
                   src={program.image} 
                   alt={program.title}
                   loading="lazy"
                   width="300"
                   height="200"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div 
+                <motion.div 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.3 }}
                   className="relative z-20 p-8 flex flex-col items-center mt-auto"
                 >
-                  <div className="text-6xl mb-6">{program.icon}</div>
-                  <h3 className="text-2xl font-bold text-center text-primary-500 mb-3">{program.title}</h3>
-                  <p className="text-gray-300 text-sm text-center">{program.description}</p>
-                </div>
+                  <motion.div 
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-6xl mb-6"
+                  >
+                    {program.icon}
+                  </motion.div>
+                  <motion.h3 
+                    whileHover={{ scale: 1.05 }}
+                    className="text-2xl font-bold text-center text-primary-500 mb-3"
+                  >
+                    {program.title}
+                  </motion.h3>
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: index * 0.4 }}
+                    className="text-gray-300 text-sm text-center"
+                  >
+                    {program.description}
+                  </motion.p>
+                </motion.div>
               </motion.div>
             ))}
           </div>

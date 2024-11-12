@@ -26,7 +26,7 @@ const Hero = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-secondary-900/70 to-secondary-950">
+    <div className="min-h-screen bg-gradient-to-b from-black/90 to-black/60">
       {/* Hero Section */}
         <div className="relative md:h-[120vh] h-[100vh]">
         {/* Navbar */}
@@ -118,7 +118,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter">
               YOU CONTROL<br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-red-500 to-purple-600 animate-gradient-x">
                 YOUR DESTINY

@@ -9,6 +9,7 @@ import Services from './componets/services'
 import Home2 from './componets/home2'
 import Contact from './componets/contact'
 import Navbar from './componets/commen/navbar'
+import Footer from './componets/commen/footer'
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function AppContent() {
       backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.5)),url('https://sweatboxapg.com/wp-content/uploads/2021/12/13.jpg')",
       backgroundAttachment: "fixed"
     }}>
-      {!isHomePage && <Navbar />}
+      {!isHomePage && !location.pathname.startsWith('/dashboard') && <Navbar />}
       
       <Routes>
         <Route path="/dashboard/*" element={<Layout />} />
@@ -39,6 +40,7 @@ function AppContent() {
         <Route path="/about" element={<About />} />
         <Route path="/Coaches & Trainers" element={<AboutOwner />} />
       </Routes>
+      {!location.pathname.startsWith('/dashboard') && <Footer />}
     </div>
   )
 }
