@@ -21,7 +21,7 @@ const Hero = () => {
     { to: "/services", text: "Services" },
     { to: "/gallery", text: "Gallery" },
     { to: "/contact", text: "Contact" },
-    { to: "/dashboard", text: "Member Login", special: true }
+    { to: "/dashboard/dashboard", text: "Member Login", special: true }
     
   ]
 

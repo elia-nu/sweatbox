@@ -70,74 +70,62 @@ const Sidebar = ({ isOpen, onToggle }) => {
   }
 
   return (
-    <div className={`h-full flex flex-col justify-between bg-secondary-800 text-white transition-all duration-300 shadow-xl ${
-      isOpen ? 'w-64' : 'w-20 lg:w-20'
+    <div className={`h-full flex flex-col justify-between bg-gradient-to-b from-secondary-900 to-secondary-800 text-white transition-all duration-300 shadow-2xl ${
+      isOpen ? 'w-72' : 'w-20'
     }`}>
-      <div className='flex flex-col justify-between'>
+      <div className='flex flex-col'>
         {/* Logo */}
-        <div className="flex items-center justify-center h-16 bg-secondary-900 border-b border-secondary-700">
+        <div className="flex items-center justify-center h-20 bg-gradient-to-r from-secondary-900 to-secondary-800 border-b border-secondary-700/50">
           {isOpen ? (
-            <h1 className="py-10 text-3xl font-bold text-primary-500 tracking-wider">SWEAT BOX</h1>
+            <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">SWEAT BOX</h1>
           ) : (
-            <span className="text-xl font-bold text-primary-500">SB</span>
+            <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">SB</span>
           )}
         </div>
 
         {/* Navigation */}
-        <nav className="mt-4">
+        <nav className="mt-6 px-3">
           {menuItems.map((item, index) => (
-            <div key={item.title}>
+            <div key={item.title} className="mb-2">
               {item.submenu ? (
                 <div>
                   <button
                     data-tooltip-id="nav-tooltip"
                     data-tooltip-content={!isOpen ? item.title : ''}
                     onClick={() => toggleDropdown(index)}
-                    className={`flex items-center w-full  py-3 hover:bg-secondary-700 transition-colors ${
-                      activeDropdown === index ? 'bg-secondary-700' : ''
-                    }${!isOpen ? 'px-7' : 'px-4'}`}
+                    className={`flex items-center w-full p-3 rounded-lg hover:bg-secondary-700/50 backdrop-blur-sm transition-all duration-200 ${
+                      activeDropdown === index ? 'bg-secondary-700/50' : ''
+                    }`}
                   >
-                    <div className="flex items-center">
-                      <span className={`${!isOpen ? '' : 'mr-4'}`}>{item.icon}</span>
-                      {!isOpen && (
-                        <svg
-                          className="w-3 h-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
+                    <div className="flex items-center flex-1">
+                      <span className={`${!isOpen ? 'mx-auto' : 'mr-3'} text-primary-400`}>{item.icon}</span>
+                      {isOpen && (
+                        <span className="font-medium">{item.title}</span>
                       )}
                     </div>
                     {isOpen && (
-                      <>
-                        <span className={`transition-colors ${location.pathname.startsWith(item.path) ? 'font-bold text-primary-400' : ''}`}>
-                          {item.title}
-                        </span>
-                        <svg
-                          className={`w-4 h-4 ml-2 transform transition-transform ${
-                            activeDropdown === index ? 'rotate-180' : ''
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </>
+                      <svg
+                        className={`w-4 h-4 transform transition-transform duration-200 ${
+                          activeDropdown === index ? 'rotate-180' : ''
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
                     )}
                   </button>
                   {activeDropdown === index && (
-                    <div className={`bg-secondary-700 ${!isOpen ? 'absolute left-20 top-auto min-w-[200px] rounded-md shadow-lg' : ''}`}>
+                    <div className={`mt-2 space-y-1 ${!isOpen ? 'absolute left-20 top-auto min-w-[200px] bg-secondary-800 rounded-lg shadow-xl p-2' : 'ml-4'}`}>
                       {item.submenu.map((subItem) => (
                         <Link
                           key={subItem.name}
                           to={subItem.path}
                           data-tooltip-id={!isOpen ? "nav-tooltip" : ""}
                           data-tooltip-content={!isOpen ? subItem.name : ""}
-                          className={`block ${isOpen ? 'px-12' : 'px-4'} py-2 hover:bg-secondary-600 transition-colors ${
-                            location.pathname === subItem.path ? 'font-bold text-primary-400 bg-secondary-600' : ''
+                          className={`block px-4 py-2 rounded-md text-sm hover:bg-secondary-600/50 transition-all duration-200 ${
+                            location.pathname === subItem.path ? 'bg-primary-500/10 text-primary-400 font-medium' : 'text-gray-300'
                           }`}
                         >
                           {subItem.name}
@@ -151,12 +139,12 @@ const Sidebar = ({ isOpen, onToggle }) => {
                   to={item.path}
                   data-tooltip-id="nav-tooltip"
                   data-tooltip-content={!isOpen ? item.title : ''}
-                  className={`flex items-center px-4 py-3 hover:bg-secondary-700 transition-colors ${
-                    location.pathname === item.path ? 'font-bold text-primary-400 bg-secondary-600' : ''
+                  className={`flex items-center p-3 rounded-lg hover:bg-secondary-700/50 backdrop-blur-sm transition-all duration-200 ${
+                    location.pathname === item.path ? 'bg-primary-500/10 text-primary-400' : ''
                   }`}
                 >
-                  <span className={`${!isOpen ? 'mx-auto' : 'mr-4'}`}>{item.icon}</span>
-                  {isOpen && <span>{item.title}</span>}
+                  <span className={`${!isOpen ? 'mx-auto' : 'mr-3'} text-primary-400`}>{item.icon}</span>
+                  {isOpen && <span className="font-medium">{item.title}</span>}
                 </Link>
               )}
             </div>
@@ -164,13 +152,13 @@ const Sidebar = ({ isOpen, onToggle }) => {
         </nav>
       </div>
 
-      <div className="p-4 space-y-3 border-t border-secondary-700">
+      <div className="p-4 space-y-3 border-t border-secondary-700/50">
         {/* Toggle Button */}
         <button
           onClick={onToggle}
           data-tooltip-id="nav-tooltip"
           data-tooltip-content={!isOpen ? 'Expand Sidebar' : ''}
-          className="flex items-center w-full px-4 py-2 text-sm bg-secondary-700 hover:bg-secondary-600 rounded-lg transition-colors"
+          className="flex items-center w-full p-2 text-sm bg-secondary-700/50 hover:bg-secondary-600/50 rounded-lg transition-all duration-200"
         >
           <svg 
             className={`w-5 h-5 ${isOpen ? 'mr-2' : 'mx-auto'} transform transition-transform duration-300 ${
@@ -182,7 +170,7 @@ const Sidebar = ({ isOpen, onToggle }) => {
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
           </svg>
-          {isOpen && <span>Collapse Sidebar</span>}
+          {isOpen && <span className="font-medium">Collapse</span>}
         </button>
 
         {/* Logout Button */}
@@ -190,12 +178,12 @@ const Sidebar = ({ isOpen, onToggle }) => {
           onClick={() => {/* Add logout logic here */}}
           data-tooltip-id="nav-tooltip"
           data-tooltip-content={!isOpen ? 'Logout' : ''}
-          className="flex items-center w-full px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+          className="flex items-center w-full p-2 text-sm bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all duration-200"
         >
           <svg className={`w-5 h-5 ${isOpen ? 'mr-2' : 'mx-auto'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
-          {isOpen && <span>Logout</span>}
+          {isOpen && <span className="font-medium">Logout</span>}
         </button>
       </div>
 

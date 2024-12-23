@@ -7,8 +7,8 @@ const Trainers = () => {
     {
       id: 1,
       name: 'David Miller',
-      specialization: 'Strength Training', 
-      experience: '8 years',
+      specialization: 'Strength Training',
+      experience: '8 years', 
       rating: 4.9,
       clients: 45,
       availability: 'Morning/Evening',
@@ -22,11 +22,11 @@ const Trainers = () => {
         { date: '2024-01-17', time: '10:00', client: 'Emma Wilson', type: 'Personal Training' },
         { date: '2024-01-18', time: '14:00', client: 'Chris Evans', type: 'Strength Training' }
       ],
-      bio: 'Specializing in strength and conditioning with focus on proper form and technique. Passionate about helping clients achieve their fitness goals safely and effectively.'
+      bio: 'Specializing in strength and conditioning with focus on proper form and technique.'
     },
     {
-      id: 2, 
-      name: 'Sarah Wilson',
+      id: 2,
+      name: 'Sarah Wilson', 
       specialization: 'Yoga & Pilates',
       experience: '6 years',
       rating: 4.8,
@@ -38,12 +38,12 @@ const Trainers = () => {
         { date: '2024-01-15', time: '14:00', client: 'Mike Johnson', type: 'Yoga' },
         { date: '2024-01-17', time: '16:00', client: 'Sarah Lee', type: 'Pilates' }
       ],
-      bio: 'Dedicated to bringing mindfulness and body awareness through yoga and pilates. Helping clients find balance, flexibility and inner strength.'
+      bio: 'Dedicated to bringing mindfulness and body awareness through yoga and pilates.'
     },
     {
       id: 3,
-      name: 'Michael Chen', 
-      specialization: 'Sports Conditioning',
+      name: 'Michael Chen',
+      specialization: 'Sports Conditioning', 
       experience: '10 years',
       rating: 4.9,
       clients: 52,
@@ -54,28 +54,30 @@ const Trainers = () => {
         { date: '2024-01-16', time: '10:00', client: 'Tom Wilson', type: 'Sports Conditioning' },
         { date: '2024-01-18', time: '11:30', client: 'Amy Chen', type: 'Sports Conditioning' }
       ],
-      bio: 'Elite sports performance specialist focused on developing speed, agility and power. Working with athletes to reach peak performance.'
+      bio: 'Elite sports performance specialist focused on developing speed and power.'
     },
     {
       id: 4,
       name: 'Emma Thompson',
       specialization: 'Weight Loss',
-      experience: '5 years', 
+      experience: '5 years',
       rating: 4.7,
       clients: 33,
       availability: 'Morning',
-      image: 'https://randomuser.me/api/portraits/women/68.jpg',
+      image: 'https://randomuser.me/api/portraits/women/68.jpg', 
       certifications: ['ACE CPT', 'Precision Nutrition'],
       sessions: [
         { date: '2024-01-15', time: '08:00', client: 'Lisa Brown', type: 'Nutrition' },
         { date: '2024-01-17', time: '09:30', client: 'David Park', type: 'Nutrition' }
       ],
-      bio: 'Nutrition and fitness coach specializing in sustainable weight loss through lifestyle changes. Creating personalized plans for long-term success.'
+      bio: 'Nutrition and fitness coach specializing in sustainable weight loss.'
     }
   ])
 
   const [selectedTrainer, setSelectedTrainer] = useState(null)
-  const [showCalendar, setShowCalendar] = useState(false)
+  const [showSchedule, setShowSchedule] = useState(false)
+  const [showAddTrainer, setShowAddTrainer] = useState(false)
+  const [showEditTrainer, setShowEditTrainer] = useState(false)
   const [activeFilter, setActiveFilter] = useState('all')
   const [selectedDate, setSelectedDate] = useState(new Date())
 
@@ -85,38 +87,10 @@ const Trainers = () => {
 
   const filteredTrainers = trainers.filter(trainer => {
     if (activeFilter === 'all') return true
-    
-    const specialization = trainer.specialization.toLowerCase()
-    switch(activeFilter) {
-      case 'strength':
-        return specialization.includes('strength')
-      case 'cardio':
-        return specialization.includes('cardio') || specialization.includes('conditioning')
-      case 'yoga':
-        return specialization.includes('yoga')
-      case 'weight loss':
-        return specialization.includes('weight loss')
-      default:
-        return true
-    }
+    return trainer.specialization.toLowerCase().includes(activeFilter.toLowerCase())
   })
 
   const formatDate = (date) => date.toISOString().split('T')[0]
-
-  const getWeekDates = (date) => {
-    const week = []
-    const start = new Date(date)
-    start.setDate(start.getDate() - start.getDay())
-    
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(start)
-      day.setDate(start.getDate() + i)
-      week.push(day)
-    }
-    return week
-  }
-
-  const workingHours = Array.from({ length: 12 }, (_, i) => `${i + 8}:00`)
 
   const handleEditSession = (session, trainer) => {
     const updatedClient = prompt('Update client name:', session.client)
@@ -129,11 +103,7 @@ const Trainers = () => {
             ...t,
             sessions: t.sessions.map(s => {
               if (s.date === session.date && s.time === session.time) {
-                return {
-                  ...s,
-                  client: updatedClient,
-                  type: updatedType
-                }
+                return { ...s, client: updatedClient, type: updatedType }
               }
               return s
             })
@@ -145,31 +115,8 @@ const Trainers = () => {
     }
   }
 
-  const handleAddSession = (date, time, trainer) => {
-    const client = prompt('Enter client name:')
-    const type = prompt('Enter session type:')
-
-    if (client && type) {
-      const updatedTrainers = trainers.map(t => {
-        if (t.id === trainer.id) {
-          return {
-            ...t,
-            sessions: [...t.sessions, {
-              date: formatDate(date),
-              time,
-              client,
-              type
-            }]
-          }
-        }
-        return t
-      })
-      setTrainers(updatedTrainers)
-    }
-  }
-
   const handleDeleteSession = (session, trainer) => {
-    if (confirm('Are you sure you want to delete this session?')) {
+    if (confirm('Delete this session?')) {
       const updatedTrainers = trainers.map(t => {
         if (t.id === trainer.id) {
           return {
@@ -185,38 +132,45 @@ const Trainers = () => {
     }
   }
 
+  const handleAddTrainer = (newTrainer) => {
+    setTrainers([...trainers, { ...newTrainer, id: trainers.length + 1 }])
+    setShowAddTrainer(false)
+  }
+
+  const handleEditTrainer = (updatedTrainer) => {
+    setTrainers(trainers.map(t => 
+      t.id === updatedTrainer.id ? updatedTrainer : t
+    ))
+    setShowEditTrainer(false)
+  }
+
   return (
-    <div className="min-h-screen bg-secondary-50">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-          <div className="text-center md:text-left mb-6 md:mb-0">
-            <h1 className="text-5xl font-extrabold text-secondary-900 mb-4">
-              Meet Our Expert Trainers
-            </h1>
-            <p className="text-xl text-secondary-600 max-w-2xl">
-              Transform your fitness journey with our certified professionals
-            </p>
+    <div className="min-h-screen bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-4xl font-bold text-orange-500 mb-2">Our Trainers</h1>
+            <p className="text-gray-400">Find your perfect fitness match</p>
           </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-semibold text-lg"
+          <button
+            onClick={() => setShowAddTrainer(true)}
+            className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded"
           >
-            Join Our Team
-          </motion.button>
+            Add Trainer
+          </button>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-4 mb-12 justify-center">
-          {['all', 'strength', 'cardio', 'yoga', 'weight loss'].map((filter) => (
+        <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
+          {['all', 'strength', 'yoga', 'sports', 'weight loss'].map(filter => (
             <button
               key={filter}
               onClick={() => filterTrainers(filter)}
-              className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
-                activeFilter === filter
-                  ? 'bg-primary-600 text-white shadow-lg'
-                  : 'bg-white text-secondary-600 hover:bg-secondary-100'
+              className={`px-4 py-2 rounded ${
+                activeFilter === filter 
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
               }`}
             >
               {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -224,241 +178,198 @@ const Trainers = () => {
           ))}
         </div>
 
-        {/* Trainers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredTrainers.map((trainer, index) => (
-            <motion.div
-              key={trainer.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500"
-            >
-              <div className="relative">
-                <img
-                  src={trainer.image}
-                  alt={trainer.name}
-                  className="w-full h-80 object-cover"
-                />
-                <div className="absolute top-4 right-4 flex gap-2">
-                  <span className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-primary-600">
-                    ⭐ {trainer.rating}
-                  </span>
-                  <span className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-secondary-600">
-                    {trainer.clients} Clients
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-8">
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-secondary-900 mb-2">
-                    {trainer.name}
-                  </h3>
-                  <p className="text-primary-600 font-semibold">
-                    {trainer.specialization}
-                  </p>
-                </div>
-
-                <p className="text-secondary-600 mb-6 line-clamp-3">
-                  {trainer.bio}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {trainer.certifications.map((cert, i) => (
-                    <span
-                      key={i}
-                      className="px-4 py-2 bg-primary-50 text-primary-700 rounded-full text-sm font-semibold"
+        {/* Trainer Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredTrainers.map(trainer => (
+            <div key={trainer.id} className="bg-gray-800 rounded-lg overflow-hidden">
+              <img 
+                src={trainer.image}
+                alt={trainer.name}
+                className="w-full h-48 object-cover"
+              />
+              
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-orange-500">{trainer.name}</h3>
+                    <p className="text-gray-400">{trainer.specialization}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedTrainer(trainer)
+                        setShowEditTrainer(true)
+                      }}
+                      className="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded text-sm"
                     >
+                      Edit
+                    </button>
+                    <span className="bg-gray-900 px-2 py-1 rounded text-orange-500">
+                      ⭐ {trainer.rating}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-gray-400 mb-4">{trainer.bio}</p>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {trainer.certifications.map((cert, i) => (
+                    <span key={i} className="bg-gray-700 px-2 py-1 rounded text-sm">
                       {cert}
                     </span>
                   ))}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-                    onClick={() => {
-                      setSelectedTrainer(trainer)
-                      setShowCalendar(true)
-                    }}
-                  >
-                    Schedule
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold hover:bg-primary-50 transition-all duration-300"
-                  >
-                    Profile
-                  </motion.button>
-                </div>
+                <button
+                  onClick={() => {
+                    setSelectedTrainer(trainer)
+                    setShowSchedule(true)
+                  }}
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded transition-colors"
+                >
+                  View Schedule
+                </button>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Weekly Schedule Modal */}
-      {showCalendar && selectedTrainer && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-2xl p-4 md:p-8 w-full max-h-[90vh] overflow-y-auto"
-          >
-            {/* Modal Header */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sticky top-0 bg-white pb-4 border-b">
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold text-secondary-900 mb-1">
+      {/* Schedule Modal */}
+      {showSchedule && selectedTrainer && (
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4">
+          <div className="bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-4 border-b border-gray-700">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-orange-500">
                   {selectedTrainer.name}'s Schedule
                 </h3>
-                <p className="text-sm text-secondary-600">Working Hours: {selectedTrainer.availability}</p>
-              </div>
-              
-              {/* Navigation Controls */}
-              <div className="flex items-center gap-4 mt-4 sm:mt-0">
-                <button
-                  onClick={() => {
-                    const newDate = new Date(selectedDate)
-                    newDate.setDate(newDate.getDate() - 7)
-                    setSelectedDate(newDate)
-                  }}
-                  className="p-2 hover:bg-secondary-100 rounded-lg"
+                <button 
+                  onClick={() => setShowSchedule(false)}
+                  className="text-gray-400 hover:text-white"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <span className="text-sm font-medium">
-                  {getWeekDates(selectedDate)[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} 
-                  - 
-                  {getWeekDates(selectedDate)[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                </span>
-                <button
-                  onClick={() => {
-                    const newDate = new Date(selectedDate)
-                    newDate.setDate(newDate.getDate() + 7)
-                    setSelectedDate(newDate)
-                  }}
-                  className="p-2 hover:bg-secondary-100 rounded-lg"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setShowCalendar(false)}
-                  className="p-2 hover:bg-secondary-100 rounded-lg ml-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  ✕
                 </button>
               </div>
             </div>
 
-            {/* Schedule Grid */}
-            <div className="overflow-x-auto -mx-4 md:mx-0">
-              <div className="min-w-[768px] p-4">
-                {/* Days Header */}
-                <div className="grid grid-cols-8 gap-2 mb-4">
-                  <div className="h-16 p-2"></div>
-                  {getWeekDates(selectedDate).map((date) => (
-                    <div
-                      key={date.toISOString()}
-                      className={`text-center p-2 rounded-lg ${
-                        formatDate(date) === formatDate(new Date()) 
-                          ? 'bg-primary-50 text-primary-700' 
-                          : 'bg-secondary-50'
-                      }`}
-                    >
-                      <p className="font-semibold">
-                        {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                      </p>
-                      <p className="text-sm text-secondary-600">
-                        {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Time Slots */}
-                {workingHours.map((hour) => (
-                  <div key={hour} className="grid grid-cols-8 gap-2 mb-2">
-                    <div className="p-2 text-right text-sm text-secondary-600 font-medium">
-                      {hour}
-                    </div>
-                    {getWeekDates(selectedDate).map((date) => {
-                      const sessionForSlot = selectedTrainer.sessions.find(
-                        session => 
-                          session.date === formatDate(date) && 
-                          session.time === hour
-                      )
-
-                      return (
-                        <div
-                          key={`${date.toISOString()}-${hour}`}
-                          className={`p-2 rounded-lg border transition-all duration-200 min-h-[60px] ${
-                            sessionForSlot
-                              ? 'bg-primary-50 border-primary-200'
-                              : 'border-dashed border-secondary-200 hover:border-primary-400 cursor-pointer'
-                          }`}
-                          onClick={() => {
-                            if (!sessionForSlot) {
-                              handleAddSession(date, hour, selectedTrainer)
-                            }
-                          }}
-                        >
-                          {sessionForSlot && (
-                            <div className="text-sm">
-                              <p className="font-semibold text-primary-700">
-                                {sessionForSlot.client}
-                              </p>
-                              <p className="text-xs text-primary-600 mt-1">
-                                {sessionForSlot.type}
-                              </p>
-                              <div className="flex justify-between items-center mt-1">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    handleEditSession(sessionForSlot, selectedTrainer)
-                                  }}
-                                  className="text-blue-500 hover:text-blue-700 p-1"
-                                >
-                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                  </svg>
-                                </button>
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    handleDeleteSession(sessionForSlot, selectedTrainer)
-                                  }}
-                                  className="text-red-500 hover:text-red-700 p-1"
-                                >
-                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                  </svg>
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )
-                    })}
+            <div className="p-4">
+              {selectedTrainer.sessions.map((session, i) => (
+                <div 
+                  key={i}
+                  className="bg-gray-700 rounded p-3 mb-2 flex justify-between items-center"
+                >
+                  <div>
+                    <p className="text-orange-500">{session.client}</p>
+                    <p className="text-sm text-gray-400">
+                      {session.date} at {session.time} - {session.type}
+                    </p>
                   </div>
-                ))}
-              </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleEditSession(session, selectedTrainer)}
+                      className="text-blue-400 hover:text-blue-300"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteSession(session, selectedTrainer)}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Trainer Modal */}
+      {showAddTrainer && (
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4">
+          <div className="bg-gray-800 rounded-lg max-w-2xl w-full p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-orange-500">Add New Trainer</h3>
+              <button 
+                onClick={() => setShowAddTrainer(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              const formData = new FormData(e.target)
+              handleAddTrainer({
+                name: formData.get('name'),
+                specialization: formData.get('specialization'),
+                experience: formData.get('experience'),
+                bio: formData.get('bio'),
+                image: formData.get('image'),
+                certifications: formData.get('certifications').split(','),
+                rating: 0,
+                clients: 0,
+                sessions: []
+              })
+            }}>
+              <div className="space-y-4">
+                <input name="name" placeholder="Name" className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="specialization" placeholder="Specialization" className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="experience" placeholder="Experience" className="w-full bg-gray-700 p-2 rounded" required />
+                <textarea name="bio" placeholder="Bio" className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="image" placeholder="Image URL" className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="certifications" placeholder="Certifications (comma-separated)" className="w-full bg-gray-700 p-2 rounded" required />
+                <button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 p-2 rounded">
+                  Add Trainer
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Trainer Modal */}
+      {showEditTrainer && selectedTrainer && (
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4">
+          <div className="bg-gray-800 rounded-lg max-w-2xl w-full p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-orange-500">Edit Trainer</h3>
+              <button 
+                onClick={() => setShowEditTrainer(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              const formData = new FormData(e.target)
+              handleEditTrainer({
+                ...selectedTrainer,
+                name: formData.get('name'),
+                specialization: formData.get('specialization'),
+                experience: formData.get('experience'),
+                bio: formData.get('bio'),
+                image: formData.get('image'),
+                certifications: formData.get('certifications').split(',')
+              })
+            }}>
+              <div className="space-y-4">
+                <input name="name" defaultValue={selectedTrainer.name} className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="specialization" defaultValue={selectedTrainer.specialization} className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="experience" defaultValue={selectedTrainer.experience} className="w-full bg-gray-700 p-2 rounded" required />
+                <textarea name="bio" defaultValue={selectedTrainer.bio} className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="image" defaultValue={selectedTrainer.image} className="w-full bg-gray-700 p-2 rounded" required />
+                <input name="certifications" defaultValue={selectedTrainer.certifications.join(',')} className="w-full bg-gray-700 p-2 rounded" required />
+                <button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 p-2 rounded">
+                  Update Trainer
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   )
