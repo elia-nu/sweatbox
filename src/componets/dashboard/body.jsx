@@ -2,9 +2,11 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Dashboard from './dashboard'
 import AllMembers from './members'
 import Payments from './payments'
+import Plans from './Plans'
 import Trainers from './trainers'
 import ClassSchedule from './classSchedule'
-
+import Inventory from './Inventory'
+import Maintenance from './Maintenance'
 import { useLocation } from 'react-router-dom'
 
 const Body = () => {
@@ -58,10 +60,8 @@ const Memberships = () => <div className="p-6">Membership Plans</div>
 const AddClass = () => <div className="p-6">Add New Class Form</div>
 
 const Invoices = () => <div className="p-6">Invoices List</div>
-const Plans = () => <div className="p-6">Billing Plans</div>
 
-const Inventory = () => <div className="p-6">Equipment Inventory</div>
-const Maintenance = () => <div className="p-6">Maintenance Schedule</div>
+
 const AddEquipment = () => <div className="p-6">Add New Equipment Form</div>
 
 export default Body
