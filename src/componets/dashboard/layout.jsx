@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Sidebar from './sidebar'
 import Body from './body'
+import Login from './login'
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -9,6 +10,11 @@ const Layout = () => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
+  }
+
+  // Check if user is on login page
+  if (location.pathname === '/') {
+    return <Login />
   }
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const Maintenance = () => {
   const [equipment, setEquipment] = useState([
@@ -158,13 +159,13 @@ const Maintenance = () => {
   const getStatusColor = (status) => {
     switch(status.toLowerCase()) {
       case 'operational':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-500/20 text-green-500 border border-green-500/30';
       case 'under maintenance':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30';
       case 'out of order':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-500/20 text-red-500 border border-red-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-500/20 text-gray-500 border border-gray-500/30';
     }
   };
 
@@ -180,15 +181,29 @@ const Maintenance = () => {
   });
 
   return (
-    <div className="p-8 bg-gray-900 min-h-screen">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-orange-500 mb-6">Maintenance Status</h1>
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="p-8 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen"
+    >
+      <div className="max-w-7xl mx-auto">
+        <motion.h1 
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-300 mb-8"
+        >
+          Maintenance Status
+        </motion.h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+        >
           <select 
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="bg-gray-800 text-white p-2 rounded-lg border border-gray-700"
+            className="bg-gray-800/50 text-white p-3 rounded-xl border border-gray-700/50 backdrop-blur-sm hover:border-orange-500/50 transition-colors duration-200 focus:outline-none focus:border-orange-500"
           >
             {equipmentTypes.map(type => (
               <option key={type} value={type}>
@@ -200,7 +215,7 @@ const Maintenance = () => {
           <select 
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
-            className="bg-gray-800 text-white p-2 rounded-lg border border-gray-700"
+            className="bg-gray-800/50 text-white p-3 rounded-xl border border-gray-700/50 backdrop-blur-sm hover:border-orange-500/50 transition-colors duration-200 focus:outline-none focus:border-orange-500"
           >
             {locations.map(location => (
               <option key={location} value={location}>
@@ -212,7 +227,7 @@ const Maintenance = () => {
           <select 
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-gray-800 text-white p-2 rounded-lg border border-gray-700"
+            className="bg-gray-800/50 text-white p-3 rounded-xl border border-gray-700/50 backdrop-blur-sm hover:border-orange-500/50 transition-colors duration-200 focus:outline-none focus:border-orange-500"
           >
             {statuses.map(status => (
               <option key={status} value={status}>
@@ -220,43 +235,61 @@ const Maintenance = () => {
               </option>
             ))}
           </select>
-        </div>
+        </motion.div>
 
         <div className="space-y-6">
-          {filteredEquipment.map(item => (
-            <div key={item.id} className="bg-gray-800 rounded-xl p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-white">
-                  {item.name} - {item.brand} {item.model}
-                </h2>
-                <span className="text-gray-400">{item.location}</span>
+          {filteredEquipment.map((item, index) => (
+            <motion.div 
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-orange-500/30 transition-all duration-300 shadow-lg"
+            >
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    {item.name}
+                  </h2>
+                  <p className="text-gray-400">
+                    {item.brand} {item.model}
+                  </p>
+                </div>
+                <div className="mt-2 md:mt-0">
+                  <span className="px-4 py-2 rounded-lg bg-gray-700/50 text-gray-300 font-medium">
+                    {item.location}
+                  </span>
+                </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {item.units
                   .filter(unit => selectedStatus === 'all' || unit.status === selectedStatus)
-                  .map(unit => (
-                    <div 
-                      key={unit.id} 
-                      className="bg-gray-700 p-4 rounded-lg"
+                  .map((unit, unitIndex) => (
+                    <motion.div 
+                      key={unit.id}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 + unitIndex * 0.05 }}
+                      className="bg-gray-700/30 backdrop-blur-sm p-4 rounded-xl border border-gray-600/30 hover:border-gray-500/50 transition-all duration-200"
                     >
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300">
-                          SN: {unit.serialNumber}
+                      <div className="flex flex-col space-y-3">
+                        <span className="text-gray-300 font-medium">
+                          Serial: {unit.serialNumber}
                         </span>
-                        <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(unit.status)}`}>
+                        <span className={`px-3 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(unit.status)} text-center`}>
                           {unit.status}
                         </span>
                       </div>
-                    </div>
+                    </motion.div>
                   ))
                 }
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

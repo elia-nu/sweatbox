@@ -79,7 +79,7 @@ const Navbar = ({ scrollPosition }) => {
               ))}
               <motion.div whileHover={{ scale: 1.1 }}>
                 <Link 
-                  to="/dashboard" 
+                  to="/dashboard/dashboard" 
                   className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-2 rounded-full hover:from-orange-600 hover:to-red-700 transition-all font-medium"
                 >
                   Member Portal

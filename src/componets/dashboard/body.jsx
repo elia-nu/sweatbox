@@ -8,6 +8,7 @@ import ClassSchedule from './classSchedule'
 import Inventory from './Inventory'
 import Maintenance from './Maintenance'
 import { useLocation } from 'react-router-dom'
+import Login from './login'
 
 const Body = () => {
   return (
